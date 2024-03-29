@@ -10,52 +10,21 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * <h1>MainWindow</h1>
+ * <p>Manage the tabs of the terminals and the menu</p>
+ * @author D4vsus
+ */
 public class MainWindow extends JFrame{
     private JTabbedPane Folder;
     private JPanel TerminalsWindow;
     private final List<Terminal> Terminals;
 
-    private void addTerminal(String titel){
-        Terminal terminal = new Terminal(new ProgramInterfaceImplementation());
-        this.Terminals.add(terminal);
-        this.Folder.addTab(titel,terminal.getPanel());
-    }
-    
-    private void addMenu(){
-        JMenuBar menu_bar = new JMenuBar();
-            JMenu menu_Tabs = new JMenu("Tabs");
-                JMenuItem new_terminal = new JMenuItem("New Terminal(Ctrl + t)");
-                    new_terminal.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            addTerminal("Terminal");
-                        }
-                    });
-                menu_Tabs.add(new_terminal);
-            menu_bar.add(menu_Tabs);
-        setJMenuBar(menu_bar);
-    }
-
-    private JPopupMenu addRightMenuButton(){
-        JPopupMenu rightClickMenu = new JPopupMenu();
-            JMenuItem delete = new JMenuItem("Delete (Ctrl + -)");
-            delete.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    try {
-                        int tab = Folder.getSelectedIndex();
-                        if ((tab = Folder.getSelectedIndex()) >= 0){
-                            Folder.removeTabAt(Math.max(tab, 0));
-                            Terminals.remove(tab);
-                        }
-                    } catch(IndexOutOfBoundsException exception){
-                        exception.printStackTrace();
-                    }
-                }
-            });
-        rightClickMenu.add(delete);
-        return rightClickMenu;
-    }
+    /**
+     * <h1>MainWindow()</h1>
+     * <p>Initialize the window</p>
+     * @author D4vsus
+     */
     public MainWindow() {
         this.Terminals = new ArrayList<Terminal>();
 
@@ -78,5 +47,63 @@ public class MainWindow extends JFrame{
                 }
             }
         });
+    }
+
+    /**
+     * <h1>addTerminal()</h1>
+     * <p>Add a new tab with a terminal</p>
+     *@author D4vsus
+     */
+    private void addTerminal(String titel){
+        Terminal terminal = new Terminal(new ProgramInterfaceImplementation());
+        this.Terminals.add(terminal);
+        this.Folder.addTab(titel,terminal.getPanel());
+    }
+
+    /**
+     * <h1>addMenu()</h1>
+     * <p>Add the menu on the top of the window</p>
+     * @author D4vsus
+     */
+    private void addMenu(){
+        JMenuBar menu_bar = new JMenuBar();
+            JMenu menu_Tabs = new JMenu("Tabs");
+                JMenuItem new_terminal = new JMenuItem("New Terminal(Ctrl + t)");
+                    new_terminal.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            addTerminal("Terminal");
+                        }
+                    });
+                menu_Tabs.add(new_terminal);
+            menu_bar.add(menu_Tabs);
+        setJMenuBar(menu_bar);
+    }
+
+    /**
+     * <h1>addRightMenuButton()</h1>
+     * <p>Add the right click menu on the tabs</p>
+     * @return Right click menu: JPopupMenu
+     * @author D4vsus
+     */
+    private JPopupMenu addRightMenuButton(){
+        JPopupMenu rightClickMenu = new JPopupMenu();
+            JMenuItem delete = new JMenuItem("Delete (Ctrl + -)");
+            delete.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        int tab = Folder.getSelectedIndex();
+                        if ((tab = Folder.getSelectedIndex()) >= 0){
+                            Folder.removeTabAt(Math.max(tab, 0));
+                            Terminals.remove(tab);
+                        }
+                    } catch(IndexOutOfBoundsException exception){
+                        exception.printStackTrace();
+                    }
+                }
+            });
+        rightClickMenu.add(delete);
+        return rightClickMenu;
     }
 }

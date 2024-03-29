@@ -13,25 +13,31 @@ import java.util.Collections;
 
 public class Terminal implements TerminalInterface {
     private final ProgramInterface programInterface;
-    private JPanel Terminal;
-    private JEditorPane OutputPanel;
-    private JTextField InputText;
-    private JButton EnterButton;
+    private JPanel terminal;
+    private JEditorPane outputPanel;
+    private JTextField inputText;
+    private JButton enterButton;
     private final Document info;
 
+    /**
+     * <h1>terminal()</h1>
+     * <p>Initialize the terminal</p>
+     * @param programInterface : implementation of the program interface
+     * @author D4vsus
+     */
     public Terminal(ProgramInterface programInterface){
-        this.setFont(Terminal.getFont());
+        this.setFont(terminal.getFont());
         this.programInterface = programInterface;
-        info = OutputPanel.getDocument();
-        OutputPanel.setEditable(false);
+        info = outputPanel.getDocument();
+        outputPanel.setEditable(false);
 
-        EnterButton.addActionListener(new ActionListener() {
+        enterButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 enterMethod();
             }
         });
-        InputText.addActionListener(new ActionListener() {
+        inputText.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 enterMethod();
@@ -39,6 +45,12 @@ public class Terminal implements TerminalInterface {
         });
     }
 
+    /**
+     * <h1>print()</h1>
+     * <p>Print the information on the screen</p>
+     * @param output : string
+     * @author D4vsus
+     */
     @Override
     public void print(String output) {
         try {
@@ -48,6 +60,11 @@ public class Terminal implements TerminalInterface {
         }
     }
 
+    /**
+     * <h1>clear()</h1>
+     * <p>Clear the screen</p>
+     * @author D4vsus
+     */
     @Override
     public void clear() {
         try {
@@ -57,32 +74,59 @@ public class Terminal implements TerminalInterface {
         }
     }
 
+    /**
+     * <h1>getInput()</h1>
+     * <p>Take the input from the input panel</p>
+     * @return String
+     * @author D4vsus
+     */
     @Override
     public String getInput(){
-       String get = InputText.getText();
-       InputText.setText("");
+       String get = inputText.getText();
+       inputText.setText("");
        return get;
     }
 
+    /**
+     * <h1>setInput()</h1>
+     * <p>set the input panel text</p>
+     * @author D4vsus
+     */
     @Override
     public void setInput(String string) {
-        InputText.setText("");
+        inputText.setText(string);
     }
 
+    /**
+     * <h1>setFont()</h1>
+     * <p>Set the font of all the window</p>
+     * @author D4vsus
+     */
     @Override
     public void setFont(Font font) {
-        Terminal.setFont(font);
-        InputText.setFont(font);
-        OutputPanel.setFont(font);
-        EnterButton.setFont(font);
+        terminal.setFont(font);
+        inputText.setFont(font);
+        outputPanel.setFont(font);
+        enterButton.setFont(font);
     }
 
+    /**
+     * <h1>getPanel()</h1>
+     * <p>Return the panel of the terminal</p>
+     * @return Jpanel
+     * @author D4vsus
+     */
     public JPanel getPanel(){
-        return Terminal;
+        return terminal;
     }
 
+    /**
+     * <h1>enterMethod()</h1>
+     * <p>Run a program when press enter on the input text or in the enter button</p>
+     * @author D4vsus
+     */
     public void enterMethod(){
-        if (!InputText.getText().isEmpty()) {
+        if (!inputText.getText().isEmpty()) {
             if (!programInterface.isAlive()) {
                 this.print(programInterface.startProgram(Collections.singletonList(getInput())));
                 new Thread(() -> {
@@ -94,6 +138,11 @@ public class Terminal implements TerminalInterface {
         }
     }
 
+    /**
+     * <h1>update()</h1>
+     * <p>Refresh the screen</p>
+     * @author D4vsus
+     */
     public void update(){
             String str;
             while (!(str = programInterface.writeOutput()).isEmpty()) {

@@ -15,6 +15,13 @@ public class ProgramInterfaceImplementation implements ProgramInterface {
     public ProgramInterfaceImplementation(){
 
     }
+
+    /**
+     * <h1>startProgram()</h1>
+     * <p>Star the program</p>
+     * @return String
+     * @author D4vsus
+     */
     @Override
     public String startProgram(List<String> arguments) {
         ProcessBuilder processBuilder = new ProcessBuilder(arguments);
@@ -29,6 +36,11 @@ public class ProgramInterfaceImplementation implements ProgramInterface {
         }
     }
 
+    /**
+     * <h1>readInput()</h1>
+     * <p>Read the output from the program running </p>
+     * @author D4vsus
+     */
     @Override
     public void readInput(String string) {
         try {
@@ -39,10 +51,16 @@ public class ProgramInterfaceImplementation implements ProgramInterface {
         }
     }
 
+    /**
+     * <h1>writeOutput</h1>
+     * <p>Takes one character of the output stream and return it as a string</p>
+     * @return String
+     * @author D4vsus
+     */
     @Override
     public String writeOutput() {
         try {
-            int character = 0;
+            int character;
             if (this.inputStream.ready()) {
                 character = this.inputStream.read();
                 if (character != -1) {
@@ -58,10 +76,16 @@ public class ProgramInterfaceImplementation implements ProgramInterface {
         }
     }
 
+    /**
+     * <h1>writeError</h1>
+     * <p>Takes one character of the error stream and return it as a string</p>
+     * @return string
+     * @author D4vsus
+     */
     @Override
     public String writeError() {
         try {
-            int character = 0;
+            int character;
             if (this.errorStream.ready()) {
                 character = this.errorStream.read();
                 if (character != -1) {
@@ -77,6 +101,11 @@ public class ProgramInterfaceImplementation implements ProgramInterface {
         }
     }
 
+    /**
+     * <h1>endProgram()</h1>
+     * <p>End the program</p>
+     * @author D4vsus
+     */
     @Override
     public void endProgram() {
         if(this.process.isAlive()){
@@ -84,6 +113,12 @@ public class ProgramInterfaceImplementation implements ProgramInterface {
         }
     }
 
+    /**
+     * <h1>isAlive()</h1>
+     * <p>See if the program is alive</p>
+     * @return boolean
+     * @author D4vsus
+     */
     @Override
     public boolean isAlive() {
         if (this.process != null) return this.process.isAlive();
