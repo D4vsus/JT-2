@@ -11,9 +11,8 @@
   <component name="ChangeListManager">
     <list default="true" id="bc151625-34cc-475b-a550-e88682f0105a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/JT_2/JT-2.jar" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/logic/ProgramInterfaceImplementation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/logic/ProgramInterfaceImplementation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ui/MainWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/MainWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ui/Terminal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/Terminal.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

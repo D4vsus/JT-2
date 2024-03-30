@@ -151,9 +151,9 @@ public class ProgramInterfaceImplementation implements ProgramInterface {
     public void runConfig(){
         String[] lines = getConfig();
         for (String line:lines) {
-            switch (line.split(":")[0].toLowerCase()) {
+            switch (line.split(":",2)[0].toLowerCase()) {
                 case "init":
-                    startProgram(getProgramArguments(line.split(":")[1]));
+                    startProgram(getProgramArguments(line.split(":",2)[1]));
                     break;
                 default:
                      break;
