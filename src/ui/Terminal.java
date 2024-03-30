@@ -58,8 +58,8 @@ public class Terminal implements TerminalInterface {
     public void print(String output) {
         try {
             info.insertString(info.getLength(),output,null);
-        } catch (BadLocationException e) {
-            throw new RuntimeException(e);
+        } catch (BadLocationException ignored) {
+
         }
     }
 
@@ -72,8 +72,8 @@ public class Terminal implements TerminalInterface {
     public void clear() {
         try {
             info.remove(0,info.getLength());
-        } catch (BadLocationException e) {
-            throw new RuntimeException(e);
+        } catch (BadLocationException ignored) {
+
         }
     }
 
@@ -154,7 +154,8 @@ public class Terminal implements TerminalInterface {
     public void update(){
             String str;
             while (!(str = programInterface.writeOutput()).isEmpty()) {
-                print(str);
+                if (!str.equals("clear")) print(str);
+                else clear();
             }
             while (!(str = programInterface.writeError()).isEmpty()) {
                 print(str);

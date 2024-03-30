@@ -66,6 +66,9 @@ public class ProgramInterfaceImplementation implements ProgramInterface {
             if (this.inputStream.ready()) {
                 character = this.inputStream.read();
                 if (character != -1) {
+                    if (character == 12){
+                        return "clear";
+                    }
                     return "" + (char) character;
                 } else {
                     System.out.println("asd");
@@ -140,7 +143,7 @@ public class ProgramInterfaceImplementation implements ProgramInterface {
             }
             return line.toArray(new String[0]);
         } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+            return new String[]{""};
         }
     }
 

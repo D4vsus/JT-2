@@ -90,6 +90,14 @@ public class MainWindow extends JFrame{
             }
                     });
                 menu_Tabs.add(new_window);
+        JMenuItem clear_window = new JMenuItem("Clear (Ctrl + l)");
+        clear_window.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Terminals.get(Folder.getSelectedIndex()).clear();
+            }
+        });
+        menu_Tabs.add(clear_window);
             menu_bar.add(menu_Tabs);
         setJMenuBar(menu_bar);
     }
