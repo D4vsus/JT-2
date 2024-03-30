@@ -43,4 +43,8 @@ public interface ProgramInterface {
      * @author D4vsus
      */
     public boolean isAlive();
+    public String[] getConfig();
+    public List<String> getProgramArguments(String string);
+
+    void runConfig();
 }

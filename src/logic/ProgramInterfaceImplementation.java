@@ -2,10 +2,13 @@ package logic;
 
 import interfaces.ProgramInterface;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 public class ProgramInterfaceImplementation implements ProgramInterface {
     private Process process;
@@ -24,9 +27,8 @@ public class ProgramInterfaceImplementation implements ProgramInterface {
      */
     @Override
     public String startProgram(List<String> arguments) {
-        ProcessBuilder processBuilder = new ProcessBuilder(arguments);
         try {
-            this.process = processBuilder.start();
+            this.process = new ProcessBuilder(arguments).start();
             this.inputStream = this.process.inputReader();
             this.errorStream = this.process.errorReader();
             this.outputStream = this.process.outputWriter();
@@ -123,5 +125,51 @@ public class ProgramInterfaceImplementation implements ProgramInterface {
     public boolean isAlive() {
         if (this.process != null) return this.process.isAlive();
         else return false;
+    }
+
+    @Override
+    public String[] getConfig() {
+        Path path = Paths.get("..\\Resources\\","JT-2.conf").normalize();
+        File config = new File(path.toString());
+
+        List<String> line = new ArrayList<>();
+
+        try (Scanner reader = new Scanner(config)){
+            while (reader.hasNextLine()){
+                line.add(reader.nextLine());
+            }
+            return line.toArray(new String[0]);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void runConfig(){
+        String[] lines = getConfig();
+        for (String line:lines) {
+            switch (line.split(":")[0].toLowerCase()) {
+                case "init":
+                    startProgram(getProgramArguments(line.split(":")[1]));
+                    break;
+                default:
+                     break;
+            }
+        }
+    }
+    @Override
+    public List<String> getProgramArguments(String string){
+        List<String> arguments;
+        arguments = new ArrayList<>();
+        String[] string_array_splitted_by_quotes = string.split("\"");
+        for (int x = 0; x < string_array_splitted_by_quotes.length; x++) {
+            if (x % 2 == 0) {
+                String[] string_array_splitted_by_spaces = string_array_splitted_by_quotes[x].split(" ");
+                arguments.addAll(Arrays.asList(string_array_splitted_by_spaces));
+            } else {
+                arguments.add(string_array_splitted_by_quotes[x]);
+            }
+        }
+        return arguments;
     }
 }

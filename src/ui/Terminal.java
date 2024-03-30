@@ -9,7 +9,6 @@ import javax.swing.text.Document;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Collections;
 
 public class Terminal implements TerminalInterface {
     private final ProgramInterface programInterface;
@@ -43,6 +42,10 @@ public class Terminal implements TerminalInterface {
                 enterMethod();
             }
         });
+        this.programInterface.runConfig();
+        if (programInterface.isAlive()){
+            connectProgram();
+        }
     }
 
     /**
@@ -128,14 +131,19 @@ public class Terminal implements TerminalInterface {
     public void enterMethod(){
         if (!inputText.getText().isEmpty()) {
             if (!programInterface.isAlive()) {
-                this.print(programInterface.startProgram(Collections.singletonList(getInput())));
-                new Thread(() -> {
-                    while (programInterface.isAlive()) {
-                        update();
-                    }
-                }).start();
+                connectProgram();
             } else programInterface.readInput(getInput());
         }
+    }
+
+    private void connectProgram(){
+        clear();
+        programInterface.startProgram(programInterface.getProgramArguments(getInput()));
+        new Thread(() -> {
+            while (programInterface.isAlive()) {
+                update();
+            }
+        }).start();
     }
 
     /**

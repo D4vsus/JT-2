@@ -3,10 +3,7 @@ package ui;
 import logic.ProgramInterfaceImplementation;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +31,7 @@ public class MainWindow extends JFrame{
         //Set up main window
         this.setTitle("JT-2");
         this.setBounds(100,100,500,400);
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setContentPane(TerminalsWindow);
         this.setVisible(true);
         Folder.addMouseListener(new MouseAdapter() {
@@ -45,6 +42,15 @@ public class MainWindow extends JFrame{
                     //add dropdown menu
                     addRightMenuButton().show(Folder,e.getX(),e.getY());
                 }
+            }
+        });
+        this.addWindowListener(new WindowAdapter()
+        {
+            @Override
+            public void windowClosing(WindowEvent e)
+            {
+                Terminals.clear();
+                System.exit(0);
             }
         });
     }
@@ -76,6 +82,14 @@ public class MainWindow extends JFrame{
                         }
                     });
                 menu_Tabs.add(new_terminal);
+                JMenuItem new_window = new JMenuItem("New Window(Ctrl + Alt + t)");
+                    new_window.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                new MainWindow();
+            }
+                    });
+                menu_Tabs.add(new_window);
             menu_bar.add(menu_Tabs);
         setJMenuBar(menu_bar);
     }
@@ -92,15 +106,11 @@ public class MainWindow extends JFrame{
             delete.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    try {
-                        int tab = Folder.getSelectedIndex();
+                        int tab;
                         if ((tab = Folder.getSelectedIndex()) >= 0){
                             Folder.removeTabAt(Math.max(tab, 0));
                             Terminals.remove(tab);
                         }
-                    } catch(IndexOutOfBoundsException exception){
-                        exception.printStackTrace();
-                    }
                 }
             });
         rightClickMenu.add(delete);
