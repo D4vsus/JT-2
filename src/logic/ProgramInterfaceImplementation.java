@@ -130,6 +130,12 @@ public class ProgramInterfaceImplementation implements ProgramInterface {
         else return false;
     }
 
+    /**
+     * <h1>getConfig()</h1>
+     * <p>Get the configuration of the .conf file</p>
+     * @return String[]
+     * @author D4vsus
+     */
     @Override
     public String[] getConfig() {
         Path path = Paths.get("..\\Resources\\","JT-2.conf").normalize();
@@ -147,11 +153,16 @@ public class ProgramInterfaceImplementation implements ProgramInterface {
         }
     }
 
+    /**
+     * <h1>runConfig()</h1>
+     * <p>Take the information of the .conf and work with it</p>
+     * @author D4vsus
+     */
     @Override
     public void runConfig(){
         String[] lines = getConfig();
         for (String line:lines) {
-            switch (line.split(":",2)[0].toLowerCase()) {
+            switch (line.split(":",2)[0].toLowerCase().trim()) {
                 case "init":
                     startProgram(getProgramArguments(line.split(":",2)[1]));
                     break;
@@ -160,19 +171,27 @@ public class ProgramInterfaceImplementation implements ProgramInterface {
             }
         }
     }
+
+    /**
+     * <h1>getProgramArguments()</h1>
+     * <p>Turn the string into a list of arguments</p>
+     * @param string : String
+     * @return List<String>
+     * @author D4vsus
+     */
     @Override
     public List<String> getProgramArguments(String string){
-        List<String> arguments;
-        arguments = new ArrayList<>();
-        String[] string_array_splitted_by_quotes = string.split("\"");
-        for (int x = 0; x < string_array_splitted_by_quotes.length; x++) {
-            if (x % 2 == 0) {
-                String[] string_array_splitted_by_spaces = string_array_splitted_by_quotes[x].split(" ");
-                arguments.addAll(Arrays.asList(string_array_splitted_by_spaces));
-            } else {
-                arguments.add(string_array_splitted_by_quotes[x]);
+            List<String> arguments;
+            arguments = new ArrayList<>();
+            String[] string_array_splitted_by_quotes = string.split("\"");
+            for (int x = (string.charAt(0) != '\"') ? 0 : 1; x < string_array_splitted_by_quotes.length; x++) {
+                if (x % 2 == 0) {
+                    String[] string_array_splitted_by_spaces = string_array_splitted_by_quotes[x].split(" ");
+                    arguments.addAll(Arrays.asList(string_array_splitted_by_spaces));
+                } else {
+                    arguments.add(string_array_splitted_by_quotes[x]);
+                }
             }
-        }
-        return arguments;
+            return arguments;
     }
 }

@@ -136,9 +136,17 @@ public class Terminal implements TerminalInterface {
         }
     }
 
+    /**
+     * <h1>connectProgram()</h1>
+     * <p>Connects the Terminal to the input and output stream of the other program</p>
+     * @author D4vsus
+     */
     private void connectProgram(){
         clear();
-        programInterface.startProgram(programInterface.getProgramArguments(getInput()));
+        String programName;
+        if(!(programName = getInput()).isEmpty()) {
+            programInterface.startProgram(programInterface.getProgramArguments(programName));
+        }
         new Thread(() -> {
             while (programInterface.isAlive()) {
                 update();
