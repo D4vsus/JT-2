@@ -61,7 +61,7 @@ public class MainWindow extends JFrame{
     public void addTerminal(String titel){
         Terminal terminal = new Terminal(new ProgramInterfaceImplementation());
         this.Terminals.add(terminal);
-        this.Folder.addTab(titel,terminal.getPanel());
+        this.Folder.insertTab(titel,null,terminal.getPanel(),null,0);
     }
 
     /**
@@ -82,8 +82,7 @@ public class MainWindow extends JFrame{
      *@author D4vsus
      */
     public void renameTerminal(String titel){
-        this.Folder.insertTab(titel,null,Terminals.get(Folder.getSelectedIndex()).getPanel(),null,0);
-        this.Folder.setSelectedIndex(0);
+        this.Folder.setTitleAt(this.Folder.getSelectedIndex(), titel);
     }
 
     /**
@@ -114,7 +113,7 @@ public class MainWindow extends JFrame{
         clear_window.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Terminals.get(Folder.getSelectedIndex()).clear();
+                Terminals.get(Folder.getTabCount()-Folder.getSelectedIndex()-1).clear();
             }
         });
         menu_Tabs.add(clear_window);

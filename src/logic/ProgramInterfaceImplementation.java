@@ -32,10 +32,15 @@ public class ProgramInterfaceImplementation implements ProgramInterface {
             this.inputStream = this.process.inputReader();
             this.errorStream = this.process.errorReader();
             this.outputStream = this.process.outputWriter();
-            return "";
+            if (this.isAlive()) {
+                return "";
+            }else {
+                return "Program not found";
+            }
         } catch (IOException e) {
-            return "Program not found";
+
         }
+        return "Program not found";
     }
 
     /**

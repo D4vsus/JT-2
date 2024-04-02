@@ -64,6 +64,15 @@ public class Terminal implements TerminalInterface {
     }
 
     /**
+     * <h1>setOutput()</h1>
+     * <p>Set a string to output text</p>
+     * @author D4vsus
+     */
+    public void setOutput(String string){
+        outputPanel.setText(string);
+    }
+
+    /**
      * <h1>clear()</h1>
      * <p>Clear the screen</p>
      * @author D4vsus
@@ -145,7 +154,7 @@ public class Terminal implements TerminalInterface {
         clear();
         String programName;
         if(!(programName = getInput()).isEmpty()) {
-            programInterface.startProgram(programInterface.getProgramArguments(programName));
+            this.setOutput(programInterface.startProgram(programInterface.getProgramArguments(programName)));
         }
         new Thread(() -> {
             while (programInterface.isAlive()) {
