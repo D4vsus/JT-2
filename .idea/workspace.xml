@@ -10,16 +10,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bc151625-34cc-475b-a550-e88682f0105a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/JT_2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/JT_2.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/JT_2/JT-2.jar" beforeDir="false" afterPath="$PROJECT_DIR$/bin/JT_2/JT-2.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/interfaces/ProgramInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/interfaces/ProgramInterface.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/interfaces/TerminalInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/interfaces/TerminalInterface.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ui/MainWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/MainWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ui/Terminal.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/Terminal.form" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ui/Terminal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/Terminal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/untitled2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/JT-2.iml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

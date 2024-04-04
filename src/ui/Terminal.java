@@ -99,11 +99,11 @@ public class Terminal implements TerminalInterface {
        if(commandRecord.size() < 32){
            commandRecord.add(get);
        } else {
-           String string = commandRecord.get(31);
+           String string = get;
            for (int x = 31; x > 0;x--){
                commandRecord.set(x,commandRecord.get(x));
            }
-           commandRecord.set(0,string);
+           commandRecord.set(31,string);
        }
        pointer = (byte) (commandRecord.size());
        inputText.setText("");
