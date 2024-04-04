@@ -49,4 +49,51 @@ public interface TerminalInterface {
      * @param e : {@link KeyListener}
      */
      void addKeyListenerToTheTerminal(KeyListener e);
+
+    /**
+     * <h1>getRecord()</h1>
+     * <p>Get the info of the record of the current position of the pointer</p>
+     * @return string
+     */
+    String getRecord();
+    /**
+     * <h1>getRecord()</h1>
+     * <p>Get the info of the record of the position you write</p>
+     * @param position : int
+     * @return string
+     */
+    String getRecord(int position);
+
+    /**
+     * <h1>setRecord()</h1>
+     * <p>Set a string in the position you said</p>
+     * @param string : String
+     * @param position : int
+     */
+    void setRecord(String string,int position);
+
+    /**
+     * <h1>setRecordPointer()</h1>
+     * <p>Set the position of the pointer</p>
+     * @param pointer : int
+     */
+    void setRecordPointer(byte pointer);
+
+    /**
+     * <h1>getRecordPointer()</h1>
+     * <p>Get the current position of the record</p>
+     * @return int
+     */
+    int getRecordPointer();
+
+    /**
+     * <h1>nextValueRecord()</h1>
+     * <p>Select the next value record</p>
+     */
+    void nextValueRecord();
+    /**
+     * <h1>previousValueRecord()</h1>
+     * <p>Select the previous value record</p>
+     */
+    void previousValueRecord();
 }

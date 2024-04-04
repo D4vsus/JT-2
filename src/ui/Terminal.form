@@ -53,4 +53,8 @@
       </grid>
     </children>
   </grid>
+  <inspectionSuppressions>
+    <suppress inspection="NoLabelFor" id="43e11"/>
+    <suppress inspection="NoLabelFor" id="faffa"/>
+  </inspectionSuppressions>
 </form>

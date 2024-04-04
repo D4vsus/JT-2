@@ -2,7 +2,7 @@
   <artifact type="jar" name="JT-2">
     <output-path>$PROJECT_DIR$/out/artifacts/JT_2</output-path>
     <root id="archive" name="JT-2.jar">
-      <element id="module-output" name="untitled2" />
+      <element id="module-output" name="JT-2" />
     </root>
   </artifact>
 </component>

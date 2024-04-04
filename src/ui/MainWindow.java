@@ -144,6 +144,7 @@ public class MainWindow extends JFrame implements KeyListener{
         int tab = Folder.getSelectedIndex();
         if (tab >= 0){
             Folder.removeTabAt(tab);
+            Terminals.get(tab).endProgram();
             Terminals.remove(tab);
         }
     }
@@ -181,14 +182,32 @@ public class MainWindow extends JFrame implements KeyListener{
                 default:
             }
         }
+        switch (e.getKeyCode()){
+            case KeyEvent.VK_UP:
+                getCurrentTerminal().previousValueRecord();
+                break;
+            case KeyEvent.VK_DOWN:
+                getCurrentTerminal().nextValueRecord();
+                break;
+            default:
+        }
     }
 
     private void endTerminalProgram(){
-        Terminal terminal = Terminals.get(Folder.getSelectedIndex());
+        Terminal terminal = getCurrentTerminal();
         int exitValue = terminal.endProgram();
         terminal.print("\nProgram ended by force \nexit value: %d".formatted(exitValue));
     }
 
+    /**
+     * <h1>getCurrentTerminal()</h1>
+     * <p>Get the terminal of the selected tab</p>
+     * @return Terminal
+     */
+    private Terminal getCurrentTerminal(){
+        return Terminals.get(Folder.getSelectedIndex());
+    }
+    
     private void addKeyListenerToAll(Terminal terminal){
         terminal.addKeyListenerToTheTerminal(this);
     }

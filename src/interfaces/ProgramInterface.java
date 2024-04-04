@@ -45,6 +45,5 @@ public interface ProgramInterface {
     boolean isAlive();
     String[] getConfig();
     List<String> getProgramArguments(String string);
-
     void runConfig();
 }

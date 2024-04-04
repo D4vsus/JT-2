@@ -5,9 +5,12 @@ import interfaces.TerminalInterface;
 
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultCaret;
 import javax.swing.text.Document;
 import java.awt.*;
 import java.awt.event.KeyListener;
+import java.util.List;
+import java.util.ArrayList;
 
 public class Terminal implements TerminalInterface {
     private final ProgramInterface programInterface;
@@ -16,6 +19,8 @@ public class Terminal implements TerminalInterface {
     private JTextField inputText;
     private JButton enterButton;
     private final Document info;
+    byte pointer;
+    private final List<String> commandRecord;
 
     /**
      * <h1>terminal()</h1>
@@ -24,10 +29,16 @@ public class Terminal implements TerminalInterface {
      * @author D4vsus
      */
     public Terminal(ProgramInterface programInterface){
+        pointer = 0;
+        this.commandRecord = new ArrayList<>();
         this.setFont(terminal.getFont());
         this.programInterface = programInterface;
         info = outputPanel.getDocument();
         outputPanel.setEditable(false);
+
+        //auto scroll
+        DefaultCaret caret = (DefaultCaret)outputPanel.getCaret();
+        caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 
         enterButton.addActionListener(e -> enterMethod());
         inputText.addActionListener(e -> enterMethod());
@@ -84,6 +95,17 @@ public class Terminal implements TerminalInterface {
     @Override
     public String getInput(){
        String get = inputText.getText();
+
+       if(commandRecord.size() < 32){
+           commandRecord.add(get);
+       } else {
+           String string = commandRecord.get(31);
+           for (int x = 31; x > 0;x--){
+               commandRecord.set(x,commandRecord.get(x));
+           }
+           commandRecord.set(0,string);
+       }
+       pointer = (byte) (commandRecord.size());
        inputText.setText("");
        return get;
     }
@@ -187,5 +209,94 @@ public class Terminal implements TerminalInterface {
           outputPanel.addKeyListener(e);
           inputText.addKeyListener(e);
           enterButton.addKeyListener(e);
+    }
+
+    /**
+     * <h1>getRecord()</h1>
+     * <p>Get the info of the record of the current position of the pointer</p>
+     * @return string
+     */
+    @Override
+    public String getRecord() {
+        return commandRecord.get(pointer);
+    }
+
+    /**
+     * <h1>getRecord()</h1>
+     * <p>Get the info of the record of the position you write</p>
+     *
+     * @param position : int
+     * @return string
+     */
+    @Override
+    public String getRecord(int position) {
+        return commandRecord.get(position);
+    }
+
+    /**
+     * <h1>setRecord()</h1>
+     * <p>Set a string in the position you said</p>
+     *
+     * @param string   : String
+     * @param position : int
+     */
+    @Override
+    public void setRecord(String string, int position) {
+        if (position < 32){
+            commandRecord.set(position,string);
+        }
+    }
+
+    /**
+     * <h1>setRecordPointer()</h1>
+     * <p>Set the position of the pointer</p>
+     * @param pointer : int
+     */
+    @Override
+    public void setRecordPointer(byte pointer) {
+        this.pointer = pointer;
+    }
+
+    /**
+     * <h1>getRecordPointer()</h1>
+     * <p>Get the current position of the record</p>
+     * @return int
+     */
+    @Override
+    public int getRecordPointer() {
+        return pointer;
+    }
+
+    /**
+     * <h1>nextValueRecord()</h1>
+     * <p>Select the next value record</p>
+     */
+    @Override
+    public void nextValueRecord() {
+        if (!commandRecord.isEmpty()) {
+            if (pointer < commandRecord.size()-1){
+                pointer++;
+                setInput(getRecord());
+            } else {
+                pointer = (byte) (commandRecord.size());
+                setInput("");
+            }
+        }
+    }
+
+    /**
+     * <h1>previousValueRecord()</h1>
+     * <p>Select the previous value record</p>
+     */
+    @Override
+    public void previousValueRecord() {
+        if (!commandRecord.isEmpty()) {
+            if (pointer > 0){
+                pointer--;
+            }
+            else pointer = 0;
+
+            setInput(getRecord());
+        }
     }
 }
