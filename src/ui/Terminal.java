@@ -7,8 +7,7 @@ import javax.swing.*;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
 
 public class Terminal implements TerminalInterface {
     private final ProgramInterface programInterface;
@@ -30,18 +29,8 @@ public class Terminal implements TerminalInterface {
         info = outputPanel.getDocument();
         outputPanel.setEditable(false);
 
-        enterButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                enterMethod();
-            }
-        });
-        inputText.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                enterMethod();
-            }
-        });
+        enterButton.addActionListener(e -> enterMethod());
+        inputText.addActionListener(e -> enterMethod());
         this.programInterface.runConfig();
         if (programInterface.isAlive()){
             connectProgram();
@@ -125,7 +114,7 @@ public class Terminal implements TerminalInterface {
     /**
      * <h1>getPanel()</h1>
      * <p>Return the panel of the terminal</p>
-     * @return Jpanel
+     * @return JPanel
      * @author D4vsus
      */
     public JPanel getPanel(){
@@ -177,5 +166,26 @@ public class Terminal implements TerminalInterface {
             while (!(str = programInterface.writeError()).isEmpty()) {
                 print(str);
             }
+    }
+
+    /**
+     * <h1>endProgram()</h1>
+     * <p>End the current program of the terminal and return the exit code</p>
+     * @return int : exit value
+     */
+    public int endProgram(){
+        return programInterface.endProgram();
+    }
+
+    /**
+     * <h1>addKeyListenerToTheTerminal()</h1>
+     * <p>Add the key listener to all the components of the terminal</p>
+     * @param e : {@link KeyListener}
+     */
+    public void addKeyListenerToTheTerminal(KeyListener e){
+          terminal.addKeyListener(e);
+          outputPanel.addKeyListener(e);
+          inputText.addKeyListener(e);
+          enterButton.addKeyListener(e);
     }
 }

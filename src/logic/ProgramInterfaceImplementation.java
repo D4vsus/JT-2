@@ -37,7 +37,7 @@ public class ProgramInterfaceImplementation implements ProgramInterface {
             }else {
                 return "Program not found";
             }
-        } catch (IOException e) {
+        } catch (IOException ignored) {
 
         }
         return "Program not found";
@@ -117,10 +117,13 @@ public class ProgramInterfaceImplementation implements ProgramInterface {
      * @author D4vsus
      */
     @Override
-    public void endProgram() {
-        if(this.process.isAlive()){
+    public int endProgram() {
+        if (this.process == null) return 1;
+        if(this.process.isAlive() ){
             this.process.destroy();
+            return this.process.exitValue();
         }
+        return -1;
     }
 
     /**
@@ -167,12 +170,8 @@ public class ProgramInterfaceImplementation implements ProgramInterface {
     public void runConfig(){
         String[] lines = getConfig();
         for (String line:lines) {
-            switch (line.split(":",2)[0].toLowerCase().trim()) {
-                case "init":
-                    startProgram(getProgramArguments(line.split(":",2)[1]));
-                    break;
-                default:
-                     break;
+            if (line.split(":", 2)[0].toLowerCase().trim().equals("init")) {
+                startProgram(getProgramArguments(line.split(":", 2)[1]));
             }
         }
     }

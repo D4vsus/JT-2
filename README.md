@@ -19,7 +19,7 @@ You just need to write the direction of the program, and the work with it.
 ---
 
 ## Working in it
-The terminal still at work, so some stuff such us the keyboard shortcut are in development.
+The terminal still at work, so some stuff such us the command record are in development.
 
 ---
 
