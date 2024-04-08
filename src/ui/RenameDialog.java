@@ -43,7 +43,7 @@ public class RenameDialog extends JDialog {
 
     private void onOK() {
         // add your code here
-        mw.renameTerminal(newName.getText());
+        mw.renameTab(newName.getText());
         dispose();
     }
 

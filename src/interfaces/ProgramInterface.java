@@ -43,7 +43,26 @@ public interface ProgramInterface {
      * @author D4vsus
      */
     boolean isAlive();
+
+    /**
+     * <h1>getConfig()</h1>
+     * <p>Reads the JT-2.conf file</p>
+     * @return String[]
+     * @author D4vsus
+     */
     String[] getConfig();
+
+    /**
+     * <h1>getProgramArguments()</h1>
+     * <p>Parse a string to program arguments</p>
+     * @param string String
+     * @return List<String>
+     */
     List<String> getProgramArguments(String string);
+
+    /**
+     * <h1>runConfig()</h1>
+     * <p>Run the configuration of JT-2.conf file</p>
+     */
     void runConfig();
 }

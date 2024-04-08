@@ -1,5 +1,6 @@
 package ui;
 
+import interfaces.MainWindowInterface;
 import logic.ProgramInterfaceImplementation;
 
 import javax.swing.*;
@@ -12,7 +13,7 @@ import java.util.List;
  * <p>Manage the tabs of the terminals and the menu</p>
  * @author D4vsus
  */
-public class MainWindow extends JFrame implements KeyListener{
+public class MainWindow extends JFrame implements KeyListener, MainWindowInterface {
     private JTabbedPane Folder;
     private JPanel TerminalsWindow;
     private final List<Terminal> Terminals;
@@ -65,18 +66,18 @@ public class MainWindow extends JFrame implements KeyListener{
      */
     public void addTerminal(String title){
         Terminal terminal = new Terminal(new ProgramInterfaceImplementation());
-        this.addKeyListenerToAll(terminal);
+        terminal.addKeyListenerToTheTerminal(this);
         this.Terminals.add(terminal);
         this.Folder.insertTab(title,null,terminal.getPanel(),null,0);
     }
 
     /**
-     * <h1>renameTerminal()</h1>
+     * <h1>renameTab()</h1>
      * <p>Rename a terminal</p>
      * @param title : String
      *@author D4vsus
      */
-    public void renameTerminal(String title){
+    public void renameTab(String title){
         this.Folder.setTitleAt(this.Folder.getSelectedIndex(), title);
     }
 
@@ -106,7 +107,7 @@ public class MainWindow extends JFrame implements KeyListener{
      * <p>Clear the current terminal</p>
      */
     private void clear() {
-        Terminals.get(Folder.getTabCount()-Folder.getSelectedIndex()-1).clear();
+        Terminals.get(Folder.getTabCount() - Folder.getSelectedIndex()-1).clear();
     }
 
     /**
@@ -118,7 +119,7 @@ public class MainWindow extends JFrame implements KeyListener{
     private JPopupMenu addRightMenuButton(){
         JPopupMenu rightClickMenu = new JPopupMenu();
             JMenuItem delete = new JMenuItem("Delete (Ctrl + -)");
-            JMenuItem rename = new JMenuItem("Rename (Ctrl + t)");
+            JMenuItem rename = new JMenuItem("Rename (Ctrl + r)");
             delete.addActionListener(e -> removeTab());
             rename.addActionListener(e -> openRenameDialog());
         rightClickMenu.add(delete);
@@ -179,6 +180,9 @@ public class MainWindow extends JFrame implements KeyListener{
                 case KeyEvent.VK_N:
                     openRenameDialog();
                     break;
+                case KeyEvent.VK_R:
+                    new RenameDialog(this);
+                    break;
                 default:
             }
         }
@@ -206,9 +210,5 @@ public class MainWindow extends JFrame implements KeyListener{
      */
     private Terminal getCurrentTerminal(){
         return Terminals.get(Folder.getSelectedIndex());
-    }
-    
-    private void addKeyListenerToAll(Terminal terminal){
-        terminal.addKeyListenerToTheTerminal(this);
     }
 }
