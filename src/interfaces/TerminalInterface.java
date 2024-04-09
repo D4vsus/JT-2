@@ -96,4 +96,11 @@ public interface TerminalInterface {
      * <p>Select the previous value record</p>
      */
     void previousValueRecord();
+    /**
+     * <h1>isProgramRunning()</h1>
+     * <p>Return true if there is a current program running</p>
+     * @return boolean
+     * @author D4vsus
+     */
+    public boolean isProgramRunning();
 }

@@ -99,11 +99,10 @@ public class Terminal implements TerminalInterface {
        if(commandRecord.size() < 32){
            commandRecord.add(get);
        } else {
-           String string = get;
            for (int x = 31; x > 0;x--){
                commandRecord.set(x,commandRecord.get(x));
            }
-           commandRecord.set(31,string);
+           commandRecord.set(31, get);
        }
        pointer = (byte) (commandRecord.size());
        inputText.setText("");
@@ -161,16 +160,16 @@ public class Terminal implements TerminalInterface {
      * <p>Connects the Terminal to the input and output stream of the other program</p>
      * @author D4vsus
      */
-    private void connectProgram(){
-        clear();
+    public void connectProgram(){
         String programName;
         if(!(programName = getInput()).isEmpty()) {
             this.setOutput(programInterface.startProgram(programInterface.getProgramArguments(programName)));
         }
         new Thread(() -> {
-            while (programInterface.isAlive()) {
+            while (programInterface.isAlive() && !Thread.currentThread().isInterrupted() && getPanel().isShowing()) {
                 update();
             }
+            System.out.println("fuera");
         }).start();
     }
 
@@ -298,5 +297,15 @@ public class Terminal implements TerminalInterface {
 
             setInput(getRecord());
         }
+    }
+
+    /**
+     * <h1>isProgramRunning()</h1>
+     * <p>Return true if there is a current program running</p>
+     * @return boolean
+     * @author D4vsus
+     */
+    public boolean isProgramRunning(){
+        return programInterface.isAlive();
     }
 }

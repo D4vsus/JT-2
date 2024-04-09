@@ -57,6 +57,12 @@ public class MainWindow extends JFrame implements KeyListener, MainWindowInterfa
             }
         });
         this.setVisible(true);
+        Folder.addChangeListener(e -> {
+            int tab = Folder.getSelectedIndex();
+            if (getCurrentTerminal().isProgramRunning()) {
+                Terminals.get(Folder.getTabCount() - tab - 1).connectProgram();
+            }
+        });
     }
 
     /**
@@ -205,10 +211,11 @@ public class MainWindow extends JFrame implements KeyListener, MainWindowInterfa
 
     /**
      * <h1>getCurrentTerminal()</h1>
-     * <p>Get the terminal of the selected tab</p>
+     * <p>Get the terminal of the selected tab.</p>
+     * <p>Return position 0 if there is no tab.</p>
      * @return Terminal
      */
     private Terminal getCurrentTerminal(){
-        return Terminals.get(Folder.getSelectedIndex());
+        return (Folder.getSelectedIndex() >0)?Terminals.get(Folder.getSelectedIndex()):Terminals.getFirst();
     }
 }
