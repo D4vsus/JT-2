@@ -12,7 +12,17 @@ import java.awt.event.KeyListener;
 import java.util.List;
 import java.util.ArrayList;
 
-public class Terminal implements TerminalInterface {
+public class Terminal implements TerminalInterface,Runnable {
+    /**
+     * Runs this operation.
+     */
+    @Override
+    public void run() {
+        while (programInterface.isAlive() && !Thread.currentThread().isInterrupted() && getPanel().isShowing()) {
+            update();
+        }
+    }
+
     private final ProgramInterface programInterface;
     private JPanel terminal;
     private JEditorPane outputPanel;
@@ -162,15 +172,10 @@ public class Terminal implements TerminalInterface {
      */
     public void connectProgram(){
         String programName;
-        if(!(programName = getInput()).isEmpty()) {
+        if(!(programName = getInput()).isEmpty() && !programInterface.isAlive()) {
             this.setOutput(programInterface.startProgram(programInterface.getProgramArguments(programName)));
         }
-        new Thread(() -> {
-            while (programInterface.isAlive() && !Thread.currentThread().isInterrupted() && getPanel().isShowing()) {
-                update();
-            }
-            System.out.println("fuera");
-        }).start();
+        new Thread(this).start();
     }
 
     /**
