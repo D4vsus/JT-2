@@ -5,6 +5,7 @@ import logic.ProgramInterfaceImplementation;
 
 import javax.swing.*;
 import java.awt.event.*;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +37,7 @@ public class MainWindow extends JFrame implements KeyListener, MainWindowInterfa
         this.setContentPane(TerminalsWindow);
         this.Folder.addKeyListener(this);
         this.addKeyListener(this);
+        this.setIconImage(new ImageIcon(Paths.get("..\\Resources\\JT-2.png").normalize().toString()).getImage());
 
         Folder.addMouseListener(new MouseAdapter() {
             @Override

@@ -10,14 +10,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bc151625-34cc-475b-a550-e88682f0105a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Resources/JT-2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Resources/JT-2.svg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/JT_2/JT-2.jar" beforeDir="false" afterPath="$PROJECT_DIR$/bin/JT_2/JT-2.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/interfaces/MainWindowInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/interfaces/MainWindowInterface.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/interfaces/TerminalInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/interfaces/TerminalInterface.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/logic/ProgramInterfaceImplementation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/logic/ProgramInterfaceImplementation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Resources/JT-2.conf" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Resources/JT-2.conf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ui/MainWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/MainWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ui/Terminal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/Terminal.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,7 +56,7 @@
     "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH": "270",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/David/Desktop/JT-2/src/Main",
+    "last_opened_file_path": "C:/Users/DAM/Desktop/JT-2/src/Resources",
     "project.structure.last.edited": "Artifacts",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
@@ -72,6 +70,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\DAM\Desktop\JT-2\src\Resources" />
       <recent name="E:\DAM\Programacion\main\bin\JT_2" />
       <recent name="E:\DAM\Programacion\main\bin\Resources" />
       <recent name="E:\Programs\JT-2\out\artifacts\JT_2" />
