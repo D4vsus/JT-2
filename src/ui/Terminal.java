@@ -18,8 +18,15 @@ public class Terminal implements TerminalInterface,Runnable {
      */
     @Override
     public void run() {
-        while (programInterface.isAlive() && !Thread.currentThread().isInterrupted() && getPanel().isShowing()) {
+        while (programInterface.isAlive() && !Thread.currentThread().isInterrupted() && getPanel().isVisible()) {
             update();
+            try {
+                synchronized (this){
+                    this.wait(50);
+                }
+            } catch (InterruptedException e) {
+                break;
+            }
         }
     }
 

@@ -7,7 +7,7 @@ public interface MainWindowInterface {
      *
      * @author D4vsus
      */
-    void addTerminal(String title);
+    void addTab(String title);
 
     /**
      * <h1>renameTerminal()</h1>

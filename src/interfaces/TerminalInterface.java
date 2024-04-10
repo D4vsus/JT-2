@@ -102,5 +102,5 @@ public interface TerminalInterface {
      * @return boolean
      * @author D4vsus
      */
-    public boolean isProgramRunning();
+    boolean isProgramRunning();
 }

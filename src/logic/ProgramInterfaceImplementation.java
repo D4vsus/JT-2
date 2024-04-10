@@ -75,9 +75,6 @@ public class ProgramInterfaceImplementation implements ProgramInterface {
                         return "clear";
                     }
                     return "" + (char) character;
-                } else {
-                    System.out.println("asd");
-                    return "";
                 }
             }
             return "";
@@ -100,9 +97,6 @@ public class ProgramInterfaceImplementation implements ProgramInterface {
                 character = this.errorStream.read();
                 if (character != -1) {
                     return "" + (char) character;
-                } else {
-                    System.out.println("asd");
-                    return "";
                 }
             }
             return "";

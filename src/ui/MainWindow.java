@@ -27,7 +27,7 @@ public class MainWindow extends JFrame implements KeyListener, MainWindowInterfa
         this.Terminals = new ArrayList<>();
 
         this.addMenu();
-        this.addTerminal("Terminal");
+        this.addTab("Terminal");
 
         //Set up main window
         this.setTitle("JT-2");
@@ -66,11 +66,11 @@ public class MainWindow extends JFrame implements KeyListener, MainWindowInterfa
     }
 
     /**
-     * <h1>addTerminal()</h1>
+     * <h1>addTab()</h1>
      * <p>Add a new tab with a terminal</p>
      *@author D4vsus
      */
-    public void addTerminal(String title){
+    public void addTab(String title){
         Terminal terminal = new Terminal(new ProgramInterfaceImplementation());
         terminal.addKeyListenerToTheTerminal(this);
         this.Terminals.add(terminal);
@@ -96,7 +96,7 @@ public class MainWindow extends JFrame implements KeyListener, MainWindowInterfa
         JMenuBar menu_bar = new JMenuBar();
             JMenu menu_Tabs = new JMenu("Tabs");
                 JMenuItem new_terminal = new JMenuItem("New Terminal(Ctrl + t)");
-                    new_terminal.addActionListener(e -> addTerminal("Terminal"));
+                    new_terminal.addActionListener(e -> addTab("Terminal"));
                 menu_Tabs.add(new_terminal);
                 JMenuItem new_window = new JMenuItem("New Window(Ctrl + Alt + t)");
                     new_window.addActionListener(e -> new MainWindow());
@@ -172,7 +172,7 @@ public class MainWindow extends JFrame implements KeyListener, MainWindowInterfa
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_T:
                     if((e.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) != 0) new MainWindow();
-                    else addTerminal("Terminal");
+                    else addTab("Terminal");
                     break;
                 case KeyEvent.VK_S:
                     clear();
