@@ -13,31 +13,15 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class Terminal implements TerminalInterface,Runnable {
-    /**
-     * Runs this operation.
-     */
-    @Override
-    public void run() {
-        while (programInterface.isAlive() && !Thread.currentThread().isInterrupted() && getPanel().isVisible()) {
-            update();
-            try {
-                synchronized (this){
-                    this.wait(50);
-                }
-            } catch (InterruptedException e) {
-                break;
-            }
-        }
-    }
-
     private final ProgramInterface programInterface;
     private JPanel terminal;
     private JEditorPane outputPanel;
     private JTextField inputText;
     private JButton enterButton;
     private final Document info;
-    byte pointer;
+    private byte pointer;
     private final List<String> commandRecord;
+    private boolean connected;
 
     /**
      * <h1>terminal()</h1>
@@ -47,6 +31,7 @@ public class Terminal implements TerminalInterface,Runnable {
      */
     public Terminal(ProgramInterface programInterface){
         pointer = 0;
+        connected = false;
         this.commandRecord = new ArrayList<>();
         this.setFont(terminal.getFont());
         this.programInterface = programInterface;
@@ -60,7 +45,7 @@ public class Terminal implements TerminalInterface,Runnable {
         enterButton.addActionListener(e -> enterMethod());
         inputText.addActionListener(e -> enterMethod());
         this.programInterface.runConfig();
-        if (programInterface.isAlive()){
+        if (programInterface.isAlive() && !connected){
             connectProgram();
         }
     }
@@ -113,14 +98,10 @@ public class Terminal implements TerminalInterface,Runnable {
     public String getInput(){
        String get = inputText.getText();
 
-       if(commandRecord.size() < 32){
-           commandRecord.add(get);
-       } else {
-           for (int x = 31; x > 0;x--){
-               commandRecord.set(x,commandRecord.get(x));
-           }
-           commandRecord.set(31, get);
+       if(commandRecord.size() >= 32){
+           commandRecord.removeFirst();
        }
+        commandRecord.add(get);
        pointer = (byte) (commandRecord.size());
        inputText.setText("");
        return get;
@@ -179,10 +160,13 @@ public class Terminal implements TerminalInterface,Runnable {
      */
     public void connectProgram(){
         String programName;
-        if(!(programName = getInput()).isEmpty() && !programInterface.isAlive()) {
-            this.setOutput(programInterface.startProgram(programInterface.getProgramArguments(programName)));
+        if (this.getPanel().isVisible() && !connected) {
+            connected = true;
+            if (!(programName = getInput()).isEmpty() && !programInterface.isAlive()) {
+                this.setOutput(programInterface.startProgram(programInterface.getProgramArguments(programName)));
+            }
+            new Thread(this).start();
         }
-        new Thread(this).start();
     }
 
     /**
@@ -319,5 +303,23 @@ public class Terminal implements TerminalInterface,Runnable {
      */
     public boolean isProgramRunning(){
         return programInterface.isAlive();
+    }
+
+    /**
+     * Runs this operation.
+     */
+    @Override
+    public void run() {
+        while (programInterface.isAlive() && !Thread.currentThread().isInterrupted() && getPanel().isVisible()) {
+            update();
+            try {
+                synchronized (this){
+                    this.wait(50);
+                }
+            } catch (InterruptedException e) {
+                break;
+            }
+        }
+        connected = false;
     }
 }

@@ -37,7 +37,7 @@ public class MainWindow extends JFrame implements KeyListener, MainWindowInterfa
         this.setContentPane(TerminalsWindow);
         this.Folder.addKeyListener(this);
         this.addKeyListener(this);
-        this.setIconImage(new ImageIcon(Paths.get("..\\Resources\\JT-2.png").normalize().toString()).getImage());
+        this.setIconImage(new ImageIcon(Paths.get("..\\Resources\\JT-2.png-.").normalize().toString()).getImage());
 
         Folder.addMouseListener(new MouseAdapter() {
             @Override
@@ -60,23 +60,10 @@ public class MainWindow extends JFrame implements KeyListener, MainWindowInterfa
         });
         this.setVisible(true);
         Folder.addChangeListener(e -> {
-            int tab = Folder.getSelectedIndex();
-            if (getCurrentTerminal().isProgramRunning()) {
-                Terminals.get(Folder.getTabCount() - tab - 1).connectProgram();
+            if (getCurrentTerminal().isProgramRunning() && getCurrentTerminal().getPanel().isVisible()) {
+                getCurrentTerminal().connectProgram();
             }
         });
-    }
-
-    /**
-     * <h1>addTab()</h1>
-     * <p>Add a new tab with a terminal</p>
-     *@author D4vsus
-     */
-    public void addTab(String title){
-        Terminal terminal = new Terminal(new ProgramInterfaceImplementation());
-        terminal.addKeyListenerToTheTerminal(this);
-        this.Terminals.add(terminal);
-        this.Folder.insertTab(title,null,terminal.getPanel(),null,0);
     }
 
     /**
@@ -145,6 +132,18 @@ public class MainWindow extends JFrame implements KeyListener, MainWindowInterfa
     }
 
     /**
+     * <h1>addTab()</h1>
+     * <p>Add a new tab with a terminal</p>
+     *@author D4vsus
+     */
+    public void addTab(String title){
+        Terminal terminal = new Terminal(new ProgramInterfaceImplementation());
+        terminal.addKeyListenerToTheTerminal(this);
+        this.Terminals.add(terminal);
+        this.Folder.insertTab(title,null,terminal.getPanel(),null,0);
+    }
+
+    /**
      * <h1>removeTab()</h1>
      * <p>Remove the selected tab</p>
      * @author D4vsus
@@ -205,6 +204,11 @@ public class MainWindow extends JFrame implements KeyListener, MainWindowInterfa
         }
     }
 
+    /**
+     * <h1>endTerminalProgram()</h1>
+     * <p>End the current terminal program</p>
+     * @author D4vsus
+     */
     private void endTerminalProgram(){
         Terminal terminal = getCurrentTerminal();
         int exitValue = terminal.endProgram();
@@ -216,8 +220,9 @@ public class MainWindow extends JFrame implements KeyListener, MainWindowInterfa
      * <p>Get the terminal of the selected tab.</p>
      * <p>Return position 0 if there is no tab.</p>
      * @return Terminal
+     * @author D4vsus
      */
     private Terminal getCurrentTerminal(){
-        return (Folder.getSelectedIndex() >0)?Terminals.get(Folder.getSelectedIndex()):Terminals.getFirst();
+        return (Folder.getTabCount() > 1)?Terminals.get(Folder.getTabCount() -1 -Folder.getSelectedIndex()):Terminals.getFirst();
     }
 }
