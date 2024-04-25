@@ -11,6 +11,7 @@ import java.awt.*;
 import java.awt.event.KeyListener;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.ListIterator;
 
 public class Terminal implements TerminalInterface,Runnable {
     private final ProgramInterface programInterface;
@@ -22,10 +23,12 @@ public class Terminal implements TerminalInterface,Runnable {
     private byte pointer;
     private final List<String> commandRecord;
     private boolean connected;
+    private ListIterator<String> pointer_;
 
     /**
      * <h1>terminal()</h1>
      * <p>Initialize the terminal</p>
+     *
      * @param programInterface : implementation of the program interface
      * @author D4vsus
      */
@@ -33,6 +36,7 @@ public class Terminal implements TerminalInterface,Runnable {
         pointer = 0;
         connected = false;
         this.commandRecord = new ArrayList<>();
+        pointer_ = this.commandRecord.listIterator();
         this.setFont(terminal.getFont());
         this.programInterface = programInterface;
         info = outputPanel.getDocument();
@@ -53,6 +57,7 @@ public class Terminal implements TerminalInterface,Runnable {
     /**
      * <h1>print()</h1>
      * <p>Print the information on the screen</p>
+     *
      * @param output : string
      * @author D4vsus
      */
@@ -68,6 +73,7 @@ public class Terminal implements TerminalInterface,Runnable {
     /**
      * <h1>setOutput()</h1>
      * <p>Set a string to output text</p>
+     *
      * @author D4vsus
      */
     public void setOutput(String string){
@@ -77,6 +83,7 @@ public class Terminal implements TerminalInterface,Runnable {
     /**
      * <h1>clear()</h1>
      * <p>Clear the screen</p>
+     *
      * @author D4vsus
      */
     @Override
@@ -91,25 +98,30 @@ public class Terminal implements TerminalInterface,Runnable {
     /**
      * <h1>getInput()</h1>
      * <p>Take the input from the input panel</p>
+     *
      * @return String
      * @author D4vsus
      */
     @Override
     public String getInput(){
-       String get = inputText.getText();
-
-       if(commandRecord.size() >= 32){
-           commandRecord.removeFirst();
-       }
-        commandRecord.add(get);
-       pointer = (byte) (commandRecord.size());
-       inputText.setText("");
-       return get;
+        String get = inputText.getText();
+        if (!get.isEmpty()) {
+            if (commandRecord.size() >= 32) {
+                commandRecord.removeFirst();
+            }
+            commandRecord.addFirst(get);
+            pointer_ = commandRecord.listIterator();
+            pointer = (byte) (commandRecord.size());
+            inputText.setText("");
+            return get;
+        }
+        return "";
     }
 
     /**
      * <h1>setInput()</h1>
      * <p>set the input panel text</p>
+     *
      * @author D4vsus
      */
     @Override
@@ -120,6 +132,7 @@ public class Terminal implements TerminalInterface,Runnable {
     /**
      * <h1>setFont()</h1>
      * <p>Set the font of all the window</p>
+     *
      * @author D4vsus
      */
     @Override
@@ -133,6 +146,7 @@ public class Terminal implements TerminalInterface,Runnable {
     /**
      * <h1>getPanel()</h1>
      * <p>Return the panel of the terminal</p>
+     *
      * @return JPanel
      * @author D4vsus
      */
@@ -143,19 +157,20 @@ public class Terminal implements TerminalInterface,Runnable {
     /**
      * <h1>enterMethod()</h1>
      * <p>Run a program when press enter on the input text or in the enter button</p>
+     *
      * @author D4vsus
      */
     public void enterMethod(){
         if (!inputText.getText().isEmpty()) {
-            if (!programInterface.isAlive()) {
-                connectProgram();
-            } else programInterface.readInput(getInput());
+            if (!programInterface.isAlive()) connectProgram();
+            else programInterface.readInput(getInput());//problem
         }
     }
 
     /**
      * <h1>connectProgram()</h1>
      * <p>Connects the Terminal to the input and output stream of the other program</p>
+     *
      * @author D4vsus
      */
     public void connectProgram(){
@@ -172,6 +187,7 @@ public class Terminal implements TerminalInterface,Runnable {
     /**
      * <h1>update()</h1>
      * <p>Refresh the screen</p>
+     *
      * @author D4vsus
      */
     public void update(){
@@ -188,7 +204,9 @@ public class Terminal implements TerminalInterface,Runnable {
     /**
      * <h1>endProgram()</h1>
      * <p>End the current program of the terminal and return the exit code</p>
+     *
      * @return int : exit value
+     * @author D4vsus
      */
     public int endProgram(){
         return programInterface.endProgram();
@@ -197,7 +215,9 @@ public class Terminal implements TerminalInterface,Runnable {
     /**
      * <h1>addKeyListenerToTheTerminal()</h1>
      * <p>Add the key listener to all the components of the terminal</p>
+     *
      * @param e : {@link KeyListener}
+     * @author D4vsus
      */
     public void addKeyListenerToTheTerminal(KeyListener e){
           terminal.addKeyListener(e);
@@ -209,7 +229,9 @@ public class Terminal implements TerminalInterface,Runnable {
     /**
      * <h1>getRecord()</h1>
      * <p>Get the info of the record of the current position of the pointer</p>
+     *
      * @return string
+     * @author D4vsus
      */
     @Override
     public String getRecord() {
@@ -222,6 +244,7 @@ public class Terminal implements TerminalInterface,Runnable {
      *
      * @param position : int
      * @return string
+     * @author D4vsus
      */
     @Override
     public String getRecord(int position) {
@@ -234,6 +257,7 @@ public class Terminal implements TerminalInterface,Runnable {
      *
      * @param string   : String
      * @param position : int
+     * @author D4vsus
      */
     @Override
     public void setRecord(String string, int position) {
@@ -245,7 +269,9 @@ public class Terminal implements TerminalInterface,Runnable {
     /**
      * <h1>setRecordPointer()</h1>
      * <p>Set the position of the pointer</p>
+     *
      * @param pointer : int
+     * @author D4vsus
      */
     @Override
     public void setRecordPointer(byte pointer) {
@@ -255,7 +281,9 @@ public class Terminal implements TerminalInterface,Runnable {
     /**
      * <h1>getRecordPointer()</h1>
      * <p>Get the current position of the record</p>
+     *
      * @return int
+     * @author D4vsus
      */
     @Override
     public int getRecordPointer() {
@@ -265,39 +293,33 @@ public class Terminal implements TerminalInterface,Runnable {
     /**
      * <h1>nextValueRecord()</h1>
      * <p>Select the next value record</p>
+     *
+     * @author D4vsus
      */
     @Override
     public void nextValueRecord() {
-        if (!commandRecord.isEmpty()) {
-            if (pointer < commandRecord.size()-1){
-                pointer++;
-                setInput(getRecord());
-            } else {
-                pointer = (byte) (commandRecord.size());
-                setInput("");
-            }
+        if (pointer_.hasPrevious()){
+            setInput(pointer_.previous());
         }
     }
 
     /**
      * <h1>previousValueRecord()</h1>
      * <p>Select the previous value record</p>
+     *
+     * @author D4vsus
      */
     @Override
     public void previousValueRecord() {
-        if (!commandRecord.isEmpty()) {
-            if (pointer > 0){
-                pointer--;
-            }
-            else pointer = 0;
-
-            setInput(getRecord());
+        if (pointer_.hasNext()) {
+            setInput(pointer_.next());
         }
     }
 
     /**
      * <h1>isProgramRunning()</h1>
      * <p>Return true if there is a current program running</p>
+     *
      * @return boolean
      * @author D4vsus
      */

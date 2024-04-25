@@ -37,7 +37,7 @@ public class MainWindow extends JFrame implements KeyListener, MainWindowInterfa
         this.setContentPane(TerminalsWindow);
         this.Folder.addKeyListener(this);
         this.addKeyListener(this);
-        this.setIconImage(new ImageIcon(Paths.get("..\\Resources\\JT-2.png-.").normalize().toString()).getImage());
+        this.setIconImage(new ImageIcon(Paths.get("..\\Resources\\JT-2.png").normalize().toString()).getImage());
 
         Folder.addMouseListener(new MouseAdapter() {
             @Override
@@ -102,7 +102,7 @@ public class MainWindow extends JFrame implements KeyListener, MainWindowInterfa
      * <p>Clear the current terminal</p>
      */
     private void clear() {
-        Terminals.get(Folder.getTabCount() - Folder.getSelectedIndex()-1).clear();
+        Terminals.get(Folder.getSelectedIndex()).clear();
     }
 
     /**
@@ -139,7 +139,7 @@ public class MainWindow extends JFrame implements KeyListener, MainWindowInterfa
     public void addTab(String title){
         Terminal terminal = new Terminal(new ProgramInterfaceImplementation());
         terminal.addKeyListenerToTheTerminal(this);
-        this.Terminals.add(terminal);
+        this.Terminals.addFirst(terminal);
         this.Folder.insertTab(title,null,terminal.getPanel(),null,0);
     }
 
@@ -223,6 +223,6 @@ public class MainWindow extends JFrame implements KeyListener, MainWindowInterfa
      * @author D4vsus
      */
     private Terminal getCurrentTerminal(){
-        return (Folder.getTabCount() > 1)?Terminals.get(Folder.getTabCount() -1 -Folder.getSelectedIndex()):Terminals.getFirst();
+        return (Folder.getTabCount() > 1)?Terminals.get(Folder.getSelectedIndex()):Terminals.getFirst();
     }
 }
