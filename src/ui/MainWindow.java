@@ -154,6 +154,7 @@ public class MainWindow extends JFrame implements KeyListener, MainWindowInterfa
             Folder.removeTabAt(tab);
             Terminals.get(tab).endProgram();
             Terminals.remove(tab);
+            if (tab < Terminals.size()) Terminals.get(tab).connectProgram();
         }
     }
 
