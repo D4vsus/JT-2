@@ -13,6 +13,11 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.ListIterator;
 
+/**
+ * <h1>Terminal</h1>
+ * <p>The terminal to work with programs</p>
+ * @author D4vsus
+ */
 public class Terminal implements TerminalInterface,Runnable {
     private final ProgramInterface programInterface;
     private JPanel terminal;
@@ -20,10 +25,10 @@ public class Terminal implements TerminalInterface,Runnable {
     private JTextField inputText;
     private JButton enterButton;
     private final Document info;
-    private byte pointer;
     private final List<String> commandRecord;
     private boolean connected;
-    private ListIterator<String> pointer_;
+    private boolean recordMoveControl;
+    private ListIterator<String> pointer;
 
     /**
      * <h1>terminal()</h1>
@@ -33,10 +38,9 @@ public class Terminal implements TerminalInterface,Runnable {
      * @author D4vsus
      */
     public Terminal(ProgramInterface programInterface){
-        pointer = 0;
         connected = false;
         this.commandRecord = new ArrayList<>();
-        pointer_ = this.commandRecord.listIterator();
+        pointer = this.commandRecord.listIterator();
         this.setFont(terminal.getFont());
         this.programInterface = programInterface;
         info = outputPanel.getDocument();
@@ -105,13 +109,13 @@ public class Terminal implements TerminalInterface,Runnable {
     @Override
     public String getInput(){
         String get = inputText.getText();
-        if (!get.isEmpty()) {
+        if (!get.trim().isEmpty()) {
             if (commandRecord.size() >= 32) {
-                commandRecord.removeFirst();
+                commandRecord.removeLast();
             }
+            recordMoveControl = true;
             commandRecord.addFirst(get);
-            pointer_ = commandRecord.listIterator();
-            pointer = (byte) (commandRecord.size());
+            pointer = commandRecord.listIterator();
             inputText.setText("");
             return get;
         }
@@ -161,7 +165,7 @@ public class Terminal implements TerminalInterface,Runnable {
      * @author D4vsus
      */
     public void enterMethod(){
-        if (!inputText.getText().isEmpty()) {
+        if (!inputText.getText().trim().isEmpty()) {
             if (!programInterface.isAlive()) connectProgram();
             else programInterface.readInput(getInput());//problem
         }
@@ -227,70 +231,6 @@ public class Terminal implements TerminalInterface,Runnable {
     }
 
     /**
-     * <h1>getRecord()</h1>
-     * <p>Get the info of the record of the current position of the pointer</p>
-     *
-     * @return string
-     * @author D4vsus
-     */
-    @Override
-    public String getRecord() {
-        return commandRecord.get(pointer);
-    }
-
-    /**
-     * <h1>getRecord()</h1>
-     * <p>Get the info of the record of the position you write</p>
-     *
-     * @param position : int
-     * @return string
-     * @author D4vsus
-     */
-    @Override
-    public String getRecord(int position) {
-        return commandRecord.get(position);
-    }
-
-    /**
-     * <h1>setRecord()</h1>
-     * <p>Set a string in the position you said</p>
-     *
-     * @param string   : String
-     * @param position : int
-     * @author D4vsus
-     */
-    @Override
-    public void setRecord(String string, int position) {
-        if (position < 32){
-            commandRecord.set(position,string);
-        }
-    }
-
-    /**
-     * <h1>setRecordPointer()</h1>
-     * <p>Set the position of the pointer</p>
-     *
-     * @param pointer : int
-     * @author D4vsus
-     */
-    @Override
-    public void setRecordPointer(byte pointer) {
-        this.pointer = pointer;
-    }
-
-    /**
-     * <h1>getRecordPointer()</h1>
-     * <p>Get the current position of the record</p>
-     *
-     * @return int
-     * @author D4vsus
-     */
-    @Override
-    public int getRecordPointer() {
-        return pointer;
-    }
-
-    /**
      * <h1>nextValueRecord()</h1>
      * <p>Select the next value record</p>
      *
@@ -298,8 +238,12 @@ public class Terminal implements TerminalInterface,Runnable {
      */
     @Override
     public void nextValueRecord() {
-        if (pointer_.hasPrevious()){
-            setInput(pointer_.previous());
+        if (pointer.hasPrevious() && recordMoveControl){
+            pointer.previous();
+        }
+        if (pointer.hasPrevious()){
+            setInput(pointer.previous());
+            recordMoveControl = false;
         }
     }
 
@@ -311,8 +255,12 @@ public class Terminal implements TerminalInterface,Runnable {
      */
     @Override
     public void previousValueRecord() {
-        if (pointer_.hasNext()) {
-            setInput(pointer_.next());
+        if (pointer.hasNext() && !recordMoveControl) {
+            pointer.next();
+        }
+        if (pointer.hasNext()) {
+            setInput(pointer.next());
+            recordMoveControl = true;
         }
     }
 
